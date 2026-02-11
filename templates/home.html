@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Donor Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="mb-10">
+        <h2 class="text-3xl font-extrabold text-slate-800">Hi, {{ current_user.full_name }}</h2>
+        <p class="text-slate-500 font-medium">You have donated <span class="text-emerald-600 font-bold">{{ posts|length }}</span> times. Thank you!</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="lg:col-span-1">
+            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm sticky top-28">
+                <h3 class="text-lg font-bold mb-6 text-slate-800 flex items-center gap-2">
+                    <span class="bg-emerald-100 p-1.5 rounded-lg text-emerald-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                    </span>
+                    Post Food Surplus
+                </h3>
+                <form action="/post-food" method="POST">
+                    <div class="space-y-4">
+                        <input type="text" name="title" placeholder="Item Name" required 
+                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-sm">
+                        
+                        <textarea name="description" placeholder="Description & Quantity" rows="2" 
+                                  class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-sm"></textarea>
+                        
+                        <div>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Custom Landmark / Address</label>
+                            <input type="text" name="custom_address" placeholder="e.g. Near Blue Gate, 2nd Floor" required
+                                   class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-sm">
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+                            <button type="button" onclick="detectLocation()" class="w-full py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-black uppercase tracking-widest text-emerald-600 hover:bg-emerald-50 transition-all flex items-center justify-center gap-2">
+                                📍 Capture GPS Location
+                            </button>
+                            <input type="hidden" name="lat" id="lat">
+                            <input type="hidden" name="lng" id="lng">
+                            <p id="locStatus" class="mt-2 text-[10px] text-slate-400 font-bold text-center italic uppercase">GPS coordinates will be attached</p>
+                        </div>
+
+                        <button type="submit" class="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold text-sm shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition-all">
+                            Post to Food Secure
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2">
+            <h3 class="text-xl font-bold mb-6 text-slate-800">Your Donation History</h3>
+            <div class="space-y-4">
+                {% for post in posts %}
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 flex justify-between items-center">
+                    <div>
+                        <h4 class="font-bold text-slate-800">{{ post.title }}</h4>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-tighter">{{ post.address }}</p>
+                    </div>
+                    <span class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest
+                        {{ 'bg-emerald-50 text-emerald-600 border border-emerald-100' if post.status == 'available' else 'bg-blue-50 text-blue-600 border border-blue-100' }}">
+                        {{ post.status.replace('_', ' ') }}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function detectLocation() {
+    const status = document.getElementById('locStatus');
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((p) => {
+            document.getElementById('lat').value = p.coords.latitude;
+            document.getElementById('lng').value = p.coords.longitude;
+            status.innerText = "GPS Secured ✅";
+            status.classList.add('text-emerald-500');
+        });
+    }
+}
+</script>
+{% endblock %}

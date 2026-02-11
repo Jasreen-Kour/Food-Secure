@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-16 p-10 bg-white rounded-[2.5rem] shadow-xl border border-slate-100">
+    <div class="text-center mb-10">
+        <h2 class="text-3xl font-extrabold text-slate-800">Join Food Secure</h2>
+        <p class="text-slate-500 mt-2 text-sm font-medium">Start sharing surplus with those in need.</p>
+    </div>
+
+    <form method="POST">
+        <div class="space-y-5">
+            <div>
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Full Name</label>
+                <input type="text" name="full_name" required placeholder="Jasreen Kour" 
+                       class="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all">
+            </div>
+            <div>
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Email Address</label>
+                <input type="email" name="email" required placeholder="name@example.com" 
+                       class="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all">
+            </div>
+            <div>
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Password</label>
+                <input type="password" name="password" required placeholder="••••••••" 
+                       class="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all">
+            </div>
+            
+            <button type="submit" class="w-full bg-emerald-600 text-white py-5 rounded-2xl font-bold text-lg hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 active:scale-[0.98] mt-4">
+                Create Donor Account
+            </button>
+        </div>
+    </form>
+
+    <div class="mt-8 pt-8 border-t border-slate-100 text-center">
+        <p class="text-sm text-slate-500 font-medium">
+            Already have an account? 
+            <a href="/login" class="text-emerald-600 font-bold hover:underline">Sign In</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Donor Login{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-20 p-10 bg-white rounded-[2.5rem] shadow-xl border border-slate-100">
+    <div class="text-center mb-10">
+        <h2 class="text-3xl font-extrabold text-slate-800">Welcome Back</h2>
+        <p class="text-slate-500 mt-2 text-sm font-medium">Log in to manage your donations.</p>
+    </div>
+
+    <form method="POST">
+        <div class="space-y-6">
+            <div>
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Email Address</label>
+                <input type="email" name="email" required placeholder="jasreen@example.com" 
+                       class="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all">
+            </div>
+            <div>
+                <div class="flex justify-between mb-2 ml-1">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Password</label>
+                    <a href="#" class="text-[10px] font-bold text-emerald-600 uppercase tracking-tighter">Forgot Password?</a>
+                </div>
+                <input type="password" name="password" required placeholder="••••••••" 
+                       class="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all">
+            </div>
+            
+            <button type="submit" class="w-full bg-emerald-600 text-white py-5 rounded-2xl font-bold text-lg hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 active:scale-[0.98]">
+                Sign In as Donor
+            </button>
+        </div>
+    </form>
+
+    <div class="mt-8 pt-8 border-t border-slate-100 text-center">
+        <p class="text-sm text-slate-500 font-medium">
+            Need an account? 
+            <a href="/register" class="text-emerald-600 font-bold hover:underline">Register here</a>
+        </p>
+        <div class="mt-4">
+            <a href="/ngo-login" class="text-[11px] font-bold text-slate-400 uppercase tracking-widest hover:text-slate-600">Are you an NGO? Login here</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

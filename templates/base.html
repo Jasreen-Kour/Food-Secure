@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Secure | {% block title %}{% endblock %}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
+        .section-card { transition: all 0.3s ease; }
+        .section-card:hover { transform: translateY(-5px); border-color: #10b981; }
+    </style>
+</head>
+<body class="bg-[#fcfcfd] text-slate-900 flex flex-col min-h-screen">
+
+    <header class="glass sticky top-0 z-50 border-b border-slate-200">
+        <nav class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            
+            <a href="/" class="flex items-center gap-2 group">
+                <div class="bg-emerald-600 p-2 rounded-xl group-hover:bg-emerald-500 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tight text-slate-800">Food<span class="text-emerald-600">Secure</span></span>
+            </a>
+
+            <div class="flex items-center gap-8">
+                {% if current_user.is_authenticated %}
+                    <span class="text-sm font-bold text-slate-700">
+                        {% if current_user.role == 'ngo' %}NGO Portal{% else %}Donor: {{ current_user.full_name }}{% endif %}
+                    </span>
+                    <a href="/logout" class="text-xs font-black text-red-500 hover:text-red-700 transition uppercase tracking-widest">Logout</a>
+                {% else %}
+                    <div class="hidden md:flex items-center gap-8">
+                        <a href="#how-it-works" class="text-sm font-bold text-slate-500 hover:text-emerald-600 transition">How it Works</a>
+                        <a href="#guidelines" class="text-sm font-bold text-slate-500 hover:text-emerald-600 transition">Guidelines</a>
+                        <a href="/login" class="text-sm font-bold text-slate-800 hover:text-emerald-600 transition">Sign In</a>
+                        <a href="/register" class="bg-emerald-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-emerald-700 transition shadow-lg shadow-emerald-100">Join Now</a>
+                    </div>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-6 mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="p-4 rounded-2xl mb-4 text-sm font-bold border 
+                        {% if category == 'success' %} bg-emerald-50 text-emerald-700 border-emerald-200 
+                        {% else %} bg-red-50 text-red-700 border-red-200 {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+
+        {% if not current_user.is_authenticated %}
+        <section id="how-it-works" class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-slate-900 tracking-tight">Making a Difference is <span class="text-emerald-600">Easy</span></h2>
+                    <p class="text-slate-500 mt-4 font-medium">Three simple steps to fight food waste.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                    <div class="section-card p-10 rounded-[2.5rem] border border-slate-100 bg-slate-50/50">
+                        <div class="text-4xl mb-6">📝</div>
+                        <h3 class="text-xl font-bold mb-4">Post Surplus</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed">Donors list their excess food with descriptions and a quick GPS-tagged landmark.</p>
+                    </div>
+                    <div class="section-card p-10 rounded-[2.5rem] border border-slate-100 bg-slate-50/50">
+                        <div class="text-4xl mb-6">🔔</div>
+                        <h3 class="text-xl font-bold mb-4">NGOs Notified</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed">Verified NGOs view the active feed and claim items based on their community needs.</p>
+                    </div>
+                    <div class="section-card p-10 rounded-[2.5rem] border border-slate-100 bg-slate-50/50">
+                        <div class="text-4xl mb-6">🚚</div>
+                        <h3 class="text-xl font-bold mb-4">Direct Pickup</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed">NGOs navigate to the donor's location and mark the items as picked up in real-time.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="guidelines" class="py-24 bg-slate-50">
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="bg-white p-12 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-slate-100">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-8 flex items-center gap-3">
+                        <span class="text-emerald-600">📋</span> Safety Guidelines
+                    </h2>
+                    <div class="space-y-6 text-slate-600">
+                        <div class="flex gap-4">
+                            <div class="font-black text-emerald-500 text-lg">01</div>
+                            <p class="text-sm font-medium"><strong>Quality First:</strong> Only donate food that you would eat yourself. Ensure items are fresh and within safe consumption dates.</p>
+                        </div>
+                        <div class="flex gap-4 border-t border-slate-50 pt-6">
+                            <div class="font-black text-emerald-500 text-lg">02</div>
+                            <p class="text-sm font-medium"><strong>Proper Packaging:</strong> Use clean, leak-proof, and food-grade containers. Label them clearly if they contain common allergens.</p>
+                        </div>
+                        <div class="flex gap-4 border-t border-slate-50 pt-6">
+                            <div class="font-black text-emerald-500 text-lg">03</div>
+                            <p class="text-sm font-medium"><strong>Clear Communication:</strong> Use the "Landmark" field to describe exactly where the NGO should park or find the package.</p>
+                        </div>
+                    </div>
+                    <div class="mt-12 p-6 bg-emerald-50 rounded-2xl border border-emerald-100 text-center">
+                        <p class="text-xs font-bold text-emerald-700 uppercase tracking-widest leading-loose">
+                            Food Secure is a community bridge by Jasreen Kour.<br>Security & Trust are our core values.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+            <div>
+                <span class="text-xl font-extrabold text-slate-800">Food<span class="text-emerald-600">Secure</span></span>
+                <p class="mt-4 text-slate-500 text-sm leading-relaxed max-w-sm font-medium">
+                    A professional platform dedicated to reducing food waste and supporting local NGOs through transparent, location-based coordination.
+                </p>
+            </div>
+            <div class="md:text-right">
+                <h4 class="font-bold text-slate-800 mb-6">Contact Jasreen Kour</h4>
+                <div class="flex flex-col md:items-end gap-3 text-sm font-bold text-slate-400">
+                    <a href="mailto:jasreeenkour784@gmail.com" class="hover:text-emerald-600 transition">jasreeenkour784@gmail.com</a>
+                    <a href="https://github.com/Jasreen-Kour" target="_blank" class="hover:text-emerald-600 transition">GitHub Profile</a>
+                    <a href="https://in.linkedin.com/in/jasreen-kour-13993a340" target="_blank" class="hover:text-emerald-600 transition">LinkedIn Connect</a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-slate-100 text-center">
+            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em]">
+                © 2026 Food Secure. All Rights Reserved by Jasreen Kour.
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
