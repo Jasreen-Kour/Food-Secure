@@ -51,7 +51,7 @@ class FoodItem(db.Model):
 
 # --- AUTHORIZED NGO CREDENTIALS ---
 NGO_ACCOUNTS = {
-    'jasreeenkour784@gmail.com': 'ngoPass123',
+    'jasreeenkour748@gmail.com': 'ngoPass123',
     'ngo@foodsecure.org': 'ngoPass456',
     'community@help.org': 'ngoPass789'
 }
